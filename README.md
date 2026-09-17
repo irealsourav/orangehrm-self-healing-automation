@@ -48,9 +48,15 @@ tests.
 
 ## CI
 
-- **GitHub Actions** (`.github/workflows/`) — fast lint/typecheck/smoke
-  feedback on every push (coming next)
-- **GitLab CI/CD** (`.gitlab-ci.yml`) — full pipeline (install → lint →
-  typecheck → e2e), running via GitLab's
-  [CI/CD for external repositories](https://docs.gitlab.com/ci/ci_cd_for_external_repos/github_integration/)
-  mirror of this GitHub repo
+GitHub is the source of truth; GitLab CI runs the full pipeline. Two
+GitHub Actions workflows (`.github/workflows/`):
+
+- **`ci.yml`** — fast lint/typecheck/e2e feedback directly on GitHub, on
+  every push and PR
+- **`mirror-to-gitlab.yml`** — pushes `main` to the GitLab project on every
+  commit. (GitLab.com's own pull-mirroring is Premium/Ultimate-only, so
+  instead of GitLab pulling from GitHub, GitHub pushes to GitLab — a plain
+  `git push` triggers GitLab's normal, Free-tier pipeline.)
+
+GitLab then runs **`.gitlab-ci.yml`** (install → lint → typecheck → e2e)
+against that synced copy: https://gitlab.com/irealsourav/orangehrm-self-healing-automation
