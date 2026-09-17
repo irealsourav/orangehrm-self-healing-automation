@@ -1,0 +1,38 @@
+{
+  "usernameInput": {
+    "id": "usernameInput",
+    "description": "Username text field on the OrangeHRM login form",
+    "candidates": [
+      { "strategy": "placeholder", "value": "Username" },
+      { "strategy": "css", "value": "input[name=\"username\"]" },
+      { "strategy": "xpath", "value": "//div[label[text()='Username']]//input" }
+    ]
+  },
+  "passwordInput": {
+    "id": "passwordInput",
+    "description": "Password field on the OrangeHRM login form",
+    "candidates": [
+      { "strategy": "placeholder", "value": "Password" },
+      { "strategy": "css", "value": "input[name=\"password\"]" },
+      { "strategy": "xpath", "value": "//div[label[text()='Password']]//input" }
+    ]
+  },
+  "loginButton": {
+    "id": "loginButton",
+    "description": "Submit button on the OrangeHRM login form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Login" } },
+      { "strategy": "css", "value": "button.orangehrm-login-button" },
+      { "strategy": "text", "value": "Login" }
+    ]
+  },
+  "errorAlert": {
+    "id": "errorAlert",
+    "description": "Error banner shown on invalid login credentials",
+    "candidates": [
+      { "strategy": "css", "value": ".oxd-alert-content-text" },
+      { "strategy": "css", "value": ".oxd-alert" },
+      { "strategy": "text", "value": "Invalid credentials" }
+    ]
+  }
+}

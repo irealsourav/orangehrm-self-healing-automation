@@ -1,0 +1,18 @@
+{
+  "breadcrumbTitle": {
+    "id": "breadcrumbTitle",
+    "description": "Module title breadcrumb in the top bar (e.g. 'Dashboard') confirming successful navigation",
+    "candidates": [
+      { "strategy": "css", "value": ".oxd-topbar-header-breadcrumb-module" },
+      { "strategy": "xpath", "value": "//h6[contains(@class,'oxd-topbar-header-breadcrumb-module')]" }
+    ]
+  },
+  "userDropdownName": {
+    "id": "userDropdownName",
+    "description": "Logged-in user's display name in the top-right user dropdown",
+    "candidates": [
+      { "strategy": "css", "value": ".oxd-userdropdown-name" },
+      { "strategy": "xpath", "value": "//p[contains(@class,'oxd-userdropdown-name')]" }
+    ]
+  }
+}
