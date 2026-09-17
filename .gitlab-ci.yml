@@ -1,0 +1,59 @@
+# Runs against the OrangeHRM demo via GitLab's "CI/CD for external repositories"
+# mirror of https://github.com/irealsourav/orangehrm-self-healing-automation.
+# Code stays primary on GitHub; GitLab only pulls it to run this pipeline.
+#
+# Image ships Chromium/Firefox/WebKit pre-installed, matching the
+# @playwright/test version pinned in package-lock.json — keep the tag in sync
+# whenever that version bumps (Playwright refuses to run against mismatched
+# browsers).
+image: mcr.microsoft.com/playwright:v1.63.0-jammy
+
+stages:
+  - install
+  - verify
+  - test
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm-cache"
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm-cache/
+
+install:
+  stage: install
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+lint:
+  stage: verify
+  needs: ["install"]
+  script:
+    - npm run lint
+
+typecheck:
+  stage: verify
+  needs: ["install"]
+  script:
+    - npm run typecheck
+
+e2e:
+  stage: test
+  needs: ["install"]
+  script:
+    - npx playwright test
+  artifacts:
+    when: always
+    expire_in: 7 days
+    paths:
+      - playwright-report/
+      - test-results/
+    reports:
+      junit: test-results/junit.xml
