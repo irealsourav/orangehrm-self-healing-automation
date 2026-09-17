@@ -1,0 +1,27 @@
+name: Mirror to GitLab
+
+# GitLab.com's pull mirroring (GitLab continuously pulling from an external
+# repo) is a Premium/Ultimate-only feature. This workflow gets the same
+# result on the Free tier by pushing FROM GitHub TO GitLab on every commit —
+# a plain `git push` triggers GitLab's normal (non-premium) push pipeline.
+# GitHub stays the primary/source-of-truth repo; GitLab is kept in sync by
+# this job, not by a GitLab-side mirror relationship.
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to GitLab
+        run: |
+          git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@gitlab.com/irealsourav/orangehrm-self-healing-automation.git"
+          git push gitlab HEAD:main
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
