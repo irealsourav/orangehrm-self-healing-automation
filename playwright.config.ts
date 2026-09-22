@@ -10,12 +10,18 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,
-  reporter: [
-    ["html", { open: "never" }],
-    ["json", { outputFile: "test-results/results.json" }],
-    ["junit", { outputFile: "test-results/junit.xml" }],
-    ["list"],
-  ],
+  // In CI, each shard writes a "blob" report (mergeable into one HTML report
+  // afterward, see the `merge-report` CI job) instead of its own HTML report.
+  // JUnit is still per-shard: GitLab combines JUnit results from every job
+  // in a pipeline into one test summary automatically.
+  reporter: process.env.CI
+    ? [["blob"], ["junit", { outputFile: "test-results/junit.xml" }], ["list"]]
+    : [
+        ["html", { open: "never" }],
+        ["json", { outputFile: "test-results/results.json" }],
+        ["junit", { outputFile: "test-results/junit.xml" }],
+        ["list"],
+      ],
   use: {
     baseURL: env.baseUrl,
     trace: "retain-on-failure",
