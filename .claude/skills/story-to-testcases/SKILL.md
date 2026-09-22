@@ -52,7 +52,7 @@ here — don't guess new entries either.
 | Add Employee | PIM → Add Employee | Input placeholders `First Name`, `Middle Name`, `Last Name`; separate field `Employee Id` (auto-filled, editable) | — |
 | Employee List / Search | PIM → Employee List | `Employee Name` search box | — |
 | Add User | Admin → Add User | `User Role` (select), `Employee Name` (autocomplete), `Status` (select), `Username`, `Password`, `Confirm Password` | User Role options: `Admin`, `ESS` |
-| Assign Leave (Admin assigns to any employee) | Leave → Assign Leave | `Employee Name` (autocomplete), `Leave Type` (select), `Leave Balance` (read-only), `From Date`, `To Date`, `Comments` | Leave Type options include `CAN - Vacation`, `CAN - Personal`, `CAN - Bereavement`, `CAN - FMLA`, `CAN - Matternity` (sic — that's the app's actual spelling, keep it verbatim), and `US -` equivalents |
+| Assign Leave (Admin assigns to any employee) | Leave → Assign Leave | `Employee Name` (autocomplete), `Leave Type` (select), `Leave Balance` (read-only), `From Date`, `To Date`, `Comments` | Leave Type options include `CAN - Vacation`, `CAN - Personal`, `CAN - Bereavement`, `CAN - FMLA`, `CAN - Matternity` (sic — that's the app's actual spelling, keep it verbatim), and `US -` equivalents. **Date fields use `yyyy-dd-mm` format (day before month, not the usual `yyyy-mm-dd`)** — confirmed live; a Test Case step that fills a date must say so explicitly or a generated Playwright test will silently type the wrong date. |
 | Apply Leave (self-service, logged-in user only) | Leave → Apply | Same Leave Type list, no Employee Name field — applies to whoever is logged in | Use **Assign Leave**, not **Apply**, whenever a Test Case needs Admin to act on an *arbitrary* employee (e.g. the E2E onboarding journey) |
 | Directory | Directory | Name search box | — |
 | My Info | My Info | Contact fields (phone, address, etc.) | — |
@@ -83,16 +83,22 @@ correct and sufficient there.
 
 ## Step 3b — Add a negative/validation case wherever a form is involved
 
-This is a real gap in the first batch this skill produced (SCRUM-5..14):
-every one of them is happy-path. A form that only gets tested with valid
+This was a real gap in the first batch this skill produced (SCRUM-5..14):
+every one of them was happy-path. A form that only gets tested with valid
 input never proves its validation actually works. Whenever an AC bullet
 involves submitting a form, ask whether a negative counterpart is worth
 adding — usually yes for anything with a required field or a uniqueness
 constraint.
 
-**Worked example (illustrative — not yet created in Jira; create it the
-same way as any atomic case if you're asked to fill this specific gap):**
+**Do not guess the validation message text.** "An error appears" isn't
+verifiable — the exact string is what a Playwright assertion will actually
+check. Verify it live (the same technique used everywhere else in this
+repo: a throwaway Playwright script against the real app) before writing
+the Expected Result, the same as any other field in the reference table
+above. Three real, verified examples, created exactly this way and linked
+to their Stories:
 
+**SCRUM-21**, linked to SCRUM-15 (Employee Record Management):
 > **Summary:** `[PIM] Add Employee Without Mandatory Fields Shows Validation Error`
 >
 > **Preconditions:** Logged in as Admin, on PIM → Add Employee
@@ -102,14 +108,51 @@ same way as any atomic case if you're asked to fill this specific gap):**
 > 2. Leave the Last Name field empty
 > 3. Click Save
 >
-> **Expected Result:** The form does not submit. A validation message
-> ("Required") is shown under both the First Name and Last Name fields, and
-> the user remains on the Add Employee page.
+> **Expected Result:** The form does not submit. A "Required" validation
+> message is shown under both the First Name and Last Name fields, and the
+> user remains on the Add Employee page.
 
-Notice this still follows the same three-part structure as a happy-path
-case — a negative case is not an excuse to be vaguer, if anything the
-Expected Result needs to be *more* precise (which fields, which message)
-since "an error appears" alone isn't verifiable.
+**SCRUM-22**, linked to SCRUM-17 (System User Administration) — note the
+precondition exploits a fact we already know is always true on this app
+(the seeded `Admin` account) rather than depending on another Test Case
+having run first:
+> **Summary:** `[Admin] Add System User with Duplicate Username Shows Validation Error`
+>
+> **Preconditions:** Logged in as Admin, on Admin → Add User. The username
+> "Admin" already exists (it is the seeded default account).
+>
+> **Steps:**
+> 1. Select any User Role and a valid Employee Name
+> 2. Set Status to Enabled
+> 3. Enter "Admin" as the Username
+> 4. Enter matching values in Password and Confirm Password
+> 5. Click Save
+>
+> **Expected Result:** The form does not submit. An "Already exists"
+> validation message is shown under the Username field, and the user
+> remains on the Add User page.
+
+**SCRUM-23**, linked to SCRUM-17:
+> **Summary:** `[Admin] Add System User with Mismatched Passwords Shows Validation Error`
+>
+> **Steps:** ... enter different values in Password and Confirm Password ...
+>
+> **Expected Result:** The form does not submit. A "Passwords do not
+> match" validation message is shown under the Confirm Password field.
+
+Notice all three still follow the same three-part structure as a
+happy-path case — a negative case is not an excuse to be vaguer, if
+anything the Expected Result needs to be *more* precise (which field,
+which exact message) since "an error appears" alone isn't verifiable.
+
+**Known gap, deliberately left open:** an Assign Leave case with To Date
+before From Date (invalid range) was attempted but its exact validation
+behavior couldn't be pinned down through scripted input in the time spent
+(the date widget didn't behave predictably under `.fill()` or scripted key
+sequences — worth a slower, more careful live session, possibly interactive,
+before writing that Expected Result). Don't invent this one — leave it
+undone rather than ship a guessed message, and pick it up properly next
+time this skill runs against the Leave Request Workflow story.
 
 ## Step 4 — Write each field with intent, not just structure
 
