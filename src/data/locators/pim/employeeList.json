@@ -1,0 +1,18 @@
+{
+  "employeeNameInput": {
+    "id": "employeeNameInput",
+    "description": "Employee Name autocomplete search field on the Employee List page. This page ALSO has a 'Supervisor Name' autocomplete with the same placeholder, so the bare placeholder alone is ambiguous (confirmed: caused a strict-mode violation in CI) — the label-proximity xpath must stay primary here, not just a fallback.",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Employee Name']/parent::div/following-sibling::div//input" },
+      { "strategy": "placeholder", "value": "Type for hints..." }
+    ]
+  },
+  "searchButton": {
+    "id": "searchButton",
+    "description": "Search button on the Employee List filter form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Search" } },
+      { "strategy": "text", "value": "Search" }
+    ]
+  }
+}

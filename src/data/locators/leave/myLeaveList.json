@@ -1,0 +1,24 @@
+{
+  "fromDateInput": {
+    "id": "fromDateInput",
+    "description": "From Date filter on My Leave List (yyyy-dd-mm). This page defaults to a narrow date window — confirmed live that a leave record dated far enough in the future is invisible until this filter is widened, which is why LeaveDateFactory-generated dates need this before a row can be found.",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='From Date']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "toDateInput": {
+    "id": "toDateInput",
+    "description": "To Date filter on My Leave List (yyyy-dd-mm)",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='To Date']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "searchButton": {
+    "id": "searchButton",
+    "description": "Search button on the My Leave List filter form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Search" } },
+      { "strategy": "text", "value": "Search" }
+    ]
+  }
+}

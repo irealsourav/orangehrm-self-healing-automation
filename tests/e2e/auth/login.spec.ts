@@ -8,7 +8,8 @@ test.describe("OrangeHRM Login", () => {
     await loginPage.goto();
     await loginPage.login(env.adminUsername, env.adminPassword);
 
-    await expect.poll(() => dashboardPage.isLoaded()).toBeTruthy();
+    // See tests/setup/auth.setup.ts for why this needs an explicit timeout.
+    await expect.poll(() => dashboardPage.isLoaded(), { timeout: 20000 }).toBeTruthy();
     expect(await dashboardPage.getBreadcrumbTitle()).toBe("Dashboard");
   });
 

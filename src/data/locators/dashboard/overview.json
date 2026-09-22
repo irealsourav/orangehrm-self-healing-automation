@@ -14,5 +14,26 @@
       { "strategy": "css", "value": ".oxd-userdropdown-name" },
       { "strategy": "xpath", "value": "//p[contains(@class,'oxd-userdropdown-name')]" }
     ]
+  },
+  "timeAtWorkWidget": {
+    "id": "timeAtWorkWidget",
+    "description": "'Time at Work' dashboard widget header, confirmed present live",
+    "candidates": [
+      { "strategy": "text", "value": "Time at Work" }
+    ]
+  },
+  "myActionsWidget": {
+    "id": "myActionsWidget",
+    "description": "'My Actions' dashboard widget header, confirmed present live",
+    "candidates": [
+      { "strategy": "text", "value": "My Actions" }
+    ]
+  },
+  "quickLaunchWidget": {
+    "id": "quickLaunchWidget",
+    "description": "'Quick Launch' dashboard widget header, confirmed present live",
+    "candidates": [
+      { "strategy": "text", "value": "Quick Launch" }
+    ]
   }
 }

@@ -46,18 +46,23 @@ typecheck:
   script:
     - npm run typecheck
 
-# Splits the suite across 4 parallel jobs via Playwright's native sharding.
-# Harmless overhead at today's test count (a handful of tests just means 3
-# shards run empty) but this is the lever that keeps suite wall-clock time
-# flat as the jira-test-to-playwright / new-page-object skills add hundreds
-# more tests — raise the number here as the suite grows, nothing else in
-# this file needs to change.
+# Sharding (Playwright's native --shard, via GitLab's `parallel:` keyword)
+# is the intended lever for keeping suite wall-clock time flat as the
+# jira-test-to-playwright / new-page-object skills add hundreds more tests —
+# deliberately not used right now, matching playwright.config.ts's
+# `workers: 1`. Confirmed by direct A/B testing, not assumed: 2 concurrent
+# sessions against the shared PUBLIC demo (2 local workers, and separately
+# 2 CI shards) caused tests that are rock solid alone — e.g. Add Employee's
+# save+redirect — to start failing, purely from the concurrency itself, not
+# general slowness. Bring back `parallel: N` + `--shard=$CI_NODE_INDEX/
+# $CI_NODE_TOTAL` only once tests run against a self-hosted instance
+# (Stage B in docs/LOCATOR_LIFECYCLE.md) instead of the public demo — that's
+# the actual fix for real parallelism, not a bigger number here.
 e2e:
   stage: test
   needs: ["install"]
-  parallel: 4
   script:
-    - npx playwright test --shard=$CI_NODE_INDEX/$CI_NODE_TOTAL
+    - npx playwright test
   artifacts:
     when: always
     expire_in: 7 days

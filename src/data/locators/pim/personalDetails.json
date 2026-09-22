@@ -1,0 +1,23 @@
+{
+  "nationalityDropdown": {
+    "id": "nationalityDropdown",
+    "description": "Nationality oxd-select dropdown in the main Personal Details form (not the secondary custom-fields form further down the page)",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Nationality']/parent::div/following-sibling::div//div[contains(concat(' ', normalize-space(@class), ' '), ' oxd-select-text ')]" }
+    ]
+  },
+  "saveButton": {
+    "id": "saveButton",
+    "description": "Save button for the main Personal Details form. The page has TWO forms (main details + a secondary custom-fields form further down) each with their own Save button, so this must stay scoped to the first form — an unscoped role/text lookup for 'Save' is ambiguous on this page.",
+    "candidates": [
+      { "strategy": "xpath", "value": "(//form[contains(concat(' ', normalize-space(@class), ' '), ' oxd-form ')])[1]//button[contains(., 'Save')]" }
+    ]
+  },
+  "successToast": {
+    "id": "successToast",
+    "description": "Confirmed live: the save PUT request correctly includes the edited value and returns 200, but the field does NOT reliably read back as persisted after a reload — a backend quirk of this shared public demo instance, not something in our control. The toast is the one thing confirmed reliable, so it's what save-confirmation checks assert on instead of a reload round-trip.",
+    "candidates": [
+      { "strategy": "css", "value": ".oxd-toast" }
+    ]
+  }
+}

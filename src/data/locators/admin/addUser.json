@@ -1,0 +1,67 @@
+{
+  "userRoleDropdown": {
+    "id": "userRoleDropdown",
+    "description": "User Role oxd-select dropdown on the Add User form",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='User Role']/parent::div/following-sibling::div//div[contains(concat(' ', normalize-space(@class), ' '), ' oxd-select-text ')]" }
+    ]
+  },
+  "statusDropdown": {
+    "id": "statusDropdown",
+    "description": "Status oxd-select dropdown on the Add User form",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Status']/parent::div/following-sibling::div//div[contains(concat(' ', normalize-space(@class), ' '), ' oxd-select-text ')]" }
+    ]
+  },
+  "employeeNameInput": {
+    "id": "employeeNameInput",
+    "description": "Employee Name autocomplete field on the Add User form",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Employee Name']/parent::div/following-sibling::div//input" },
+      { "strategy": "placeholder", "value": "Type for hints..." }
+    ]
+  },
+  "usernameInput": {
+    "id": "usernameInput",
+    "description": "Username field on the Add User form",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Username']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "passwordInput": {
+    "id": "passwordInput",
+    "description": "Password field on the Add User form",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Password']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "confirmPasswordInput": {
+    "id": "confirmPasswordInput",
+    "description": "Confirm Password field on the Add User form",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Confirm Password']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "saveButton": {
+    "id": "saveButton",
+    "description": "Save button on the Add User form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Save" } },
+      { "strategy": "text", "value": "Save" }
+    ]
+  },
+  "usernameAlreadyExistsError": {
+    "id": "usernameAlreadyExistsError",
+    "description": "Validation message shown under Username when it's already taken",
+    "candidates": [
+      { "strategy": "text", "value": "Already exists" }
+    ]
+  },
+  "passwordMismatchError": {
+    "id": "passwordMismatchError",
+    "description": "Validation message shown under Confirm Password when it doesn't match Password",
+    "candidates": [
+      { "strategy": "text", "value": "Passwords do not match" }
+    ]
+  }
+}

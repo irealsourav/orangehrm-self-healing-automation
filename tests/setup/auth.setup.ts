@@ -18,7 +18,11 @@ setup("authenticate as Admin", async ({ page, loginPage, dashboardPage }) => {
 
   await loginPage.goto();
   await loginPage.login(env.adminUsername, env.adminPassword);
-  await expect.poll(() => dashboardPage.isLoaded()).toBeTruthy();
+  // Explicit timeout: isLoaded() polls a self-healing locator whose own
+  // primary-candidate wait can take up to 10s, which is longer than
+  // expect.poll's 5s default — without this, the outer poll can time out
+  // before the inner check even completes one attempt.
+  await expect.poll(() => dashboardPage.isLoaded(), { timeout: 20000 }).toBeTruthy();
 
   await page.context().storageState({ path: ADMIN_AUTH_FILE });
 });

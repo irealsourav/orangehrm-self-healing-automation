@@ -123,3 +123,49 @@ breakage. Fixed by giving the primary a full normal timeout and only
 fallbacks a short one (see `SelfHealingLocator.ts`). Confirmed by re-running:
 no more spurious heals, and a deliberately-broken primary still heals
 correctly to the right fallback.
+
+## Known issue: concurrency degrades the shared public demo itself
+
+Confirmed by direct A/B testing while building out the PIM/Admin/Leave/
+Directory test coverage: running just 2 concurrent Playwright workers (or 2
+GitLab CI shards) against the public demo caused tests that are rock solid
+in isolation — e.g. Add Employee's save-then-redirect — to start failing,
+purely from two sessions writing around the same time, not from any bug in
+this framework's code. `playwright.config.ts` sets `workers: 1` and
+`.gitlab-ci.yml` runs the `e2e` job unsharded as a direct, evidence-based
+response to this, not a cautious default. It trades suite wall-clock time
+for reliability. The actual fix for real parallelism is Stage B
+(self-hosting, see `docs/LOCATOR_LIFECYCLE.md`) — a public demo with
+unknown capacity was never going to support it.
+
+## Known issue: search-index lag on newly-created employees (4 tests affected)
+
+Even at `workers: 1`, four tests remain genuinely flaky: `SCRUM-8` (Add
+User), `SCRUM-19` (New Hire Onboarding), `SCRUM-14` and `SCRUM-20`
+(Directory search). All four share one shape: create an employee, then
+*immediately* look them up via a **different** page's Employee Name
+autocomplete (Add User's, Assign Leave's, or Directory's). Employee List's
+own autocomplete search for the exact same freshly-created employee passes
+reliably every time (`SCRUM-6`) — the same widget, same selector pattern,
+same page-object convention. That contrast is the actual evidence: Employee
+List's search appears to query live data directly, while Add User / Assign
+Leave / Directory's autocomplete appears to hit a separately-indexed search
+endpoint that hasn't caught up yet for a record created moments earlier.
+
+`OxdAutocomplete.selectByText()` already retries the full type-and-search
+cycle three times with 2s gaps (~20s total) specifically to give that index
+time to catch up, and throws a clear, descriptive error rather than
+silently clicking a non-option when it never resolves — this is a real
+improvement over the original behavior (confirmed: before this fix, the
+same failure silently searched Directory's entire unfiltered, years-old
+accumulated dataset and returned a garbage first result instead of erroring).
+It measurably helps (this class of test now passes probabilistically rather
+than never), but doesn't fully eliminate the lag on a shared instance whose
+actual indexing latency is outside this framework's control. Options not
+yet pursued: a longer retry budget (diminishing returns, makes already-slow
+tests slower); using a pre-existing stable employee instead of a
+freshly-created one (weakens the actual "does the app immediately reflect a
+new employee everywhere" scenario these tests exist to check); or, again,
+Stage B self-hosting, where indexing latency (if it exists at all) would be
+something this project could actually observe and tune rather than guess at
+from outside.

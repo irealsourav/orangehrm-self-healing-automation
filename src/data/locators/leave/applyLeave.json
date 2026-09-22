@@ -1,0 +1,31 @@
+{
+  "leaveTypeDropdown": {
+    "id": "leaveTypeDropdown",
+    "description": "Leave Type oxd-select dropdown on the Apply Leave (self-service) form. Options here are limited to the logged-in user's own entitlements — a shorter list than Assign Leave's full leave-type list.",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Leave Type']/parent::div/following-sibling::div//div[contains(concat(' ', normalize-space(@class), ' '), ' oxd-select-text ')]" }
+    ]
+  },
+  "fromDateInput": {
+    "id": "fromDateInput",
+    "description": "From Date field on the Apply Leave form (yyyy-dd-mm format). Placeholder alone is ambiguous — identical on both From and To Date — so this stays label-proximity scoped.",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='From Date']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "toDateInput": {
+    "id": "toDateInput",
+    "description": "To Date field on the Apply Leave form (yyyy-dd-mm format)",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='To Date']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "applyButton": {
+    "id": "applyButton",
+    "description": "Apply button on the Apply Leave form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Apply" } },
+      { "strategy": "text", "value": "Apply" }
+    ]
+  }
+}

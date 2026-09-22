@@ -2,9 +2,15 @@
 // call. Tests import this barrel (indirectly, via fixtures) instead of
 // importing individual Page Object classes, keeping PageFactory the single
 // point of construction.
-//
-// One line per module. At scale, split this into per-module barrels
-// (src/pages/auth/index.ts, src/pages/pim/index.ts, ...) re-exported here,
-// so a change inside one module never touches this file.
 import "./auth/LoginPage.js";
 import "./dashboard/DashboardPage.js";
+import "./pim/AddEmployeePage.js";
+import "./pim/EmployeeListPage.js";
+import "./pim/PersonalDetailsPage.js";
+import "./admin/AddUserPage.js";
+import "./admin/UserListPage.js";
+import "./leave/ApplyLeavePage.js";
+import "./leave/AssignLeavePage.js";
+import "./leave/LeaveListPage.js";
+import "./leave/MyLeaveListPage.js";
+import "./directory/DirectoryPage.js";

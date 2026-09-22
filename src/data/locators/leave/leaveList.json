@@ -1,0 +1,39 @@
+{
+  "employeeNameInput": {
+    "id": "employeeNameInput",
+    "description": "Employee Name autocomplete filter field on the admin Leave List page",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Employee Name']/parent::div/following-sibling::div//input" },
+      { "strategy": "placeholder", "value": "Type for hints..." }
+    ]
+  },
+  "showLeaveWithStatusDropdown": {
+    "id": "showLeaveWithStatusDropdown",
+    "description": "'Show Leave with Status' oxd-select filter on the admin Leave List page",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Show Leave with Status']/parent::div/following-sibling::div//div[contains(concat(' ', normalize-space(@class), ' '), ' oxd-select-text ')]" }
+    ]
+  },
+  "fromDateInput": {
+    "id": "fromDateInput",
+    "description": "From Date filter on the admin Leave List (yyyy-dd-mm). This page defaults to a narrow date window that can exclude a LeaveDateFactory-generated far-future date (same issue confirmed on My Leave List) — widen this before searching when the assigned leave used a non-default date.",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='From Date']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "toDateInput": {
+    "id": "toDateInput",
+    "description": "To Date filter on the admin Leave List (yyyy-dd-mm)",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='To Date']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "searchButton": {
+    "id": "searchButton",
+    "description": "Search button on the Leave List filter form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Search" } },
+      { "strategy": "text", "value": "Search" }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "employeeNameInput": {
+    "id": "employeeNameInput",
+    "description": "Employee Name autocomplete field on the Assign Leave form",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Employee Name']/parent::div/following-sibling::div//input" },
+      { "strategy": "placeholder", "value": "Type for hints..." }
+    ]
+  },
+  "leaveTypeDropdown": {
+    "id": "leaveTypeDropdown",
+    "description": "Leave Type oxd-select dropdown on the Assign Leave form (full list — Admin assigning to any employee, unlike Apply Leave's entitlement-limited list)",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Leave Type']/parent::div/following-sibling::div//div[contains(concat(' ', normalize-space(@class), ' '), ' oxd-select-text ')]" }
+    ]
+  },
+  "fromDateInput": {
+    "id": "fromDateInput",
+    "description": "From Date field on the Assign Leave form (yyyy-dd-mm format)",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='From Date']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "toDateInput": {
+    "id": "toDateInput",
+    "description": "To Date field on the Assign Leave form (yyyy-dd-mm format)",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='To Date']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "assignButton": {
+    "id": "assignButton",
+    "description": "Assign button on the Assign Leave form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Assign" } },
+      { "strategy": "text", "value": "Assign" }
+    ]
+  }
+}

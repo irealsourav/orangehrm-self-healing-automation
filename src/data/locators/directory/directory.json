@@ -1,0 +1,17 @@
+{
+  "employeeNameInput": {
+    "id": "employeeNameInput",
+    "description": "Employee Name autocomplete search field on the Directory page",
+    "candidates": [
+      { "strategy": "placeholder", "value": "Type for hints..." }
+    ]
+  },
+  "searchButton": {
+    "id": "searchButton",
+    "description": "Search button on the Directory filter form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Search" } },
+      { "strategy": "text", "value": "Search" }
+    ]
+  }
+}

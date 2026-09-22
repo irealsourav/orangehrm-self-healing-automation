@@ -1,0 +1,31 @@
+{
+  "firstNameInput": {
+    "id": "firstNameInput",
+    "description": "First Name field on the Add Employee form",
+    "candidates": [
+      { "strategy": "placeholder", "value": "First Name" }
+    ]
+  },
+  "lastNameInput": {
+    "id": "lastNameInput",
+    "description": "Last Name field on the Add Employee form",
+    "candidates": [
+      { "strategy": "placeholder", "value": "Last Name" }
+    ]
+  },
+  "saveButton": {
+    "id": "saveButton",
+    "description": "Save button on the Add Employee form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Save" } },
+      { "strategy": "text", "value": "Save" }
+    ]
+  },
+  "requiredFieldError": {
+    "id": "requiredFieldError",
+    "description": "Field-level 'Required' validation message shown under an empty mandatory field. MUST stay CSS-scoped to the error-message class, not a text match — this form also has an unrelated '* Required' legend at the bottom whose text contains the substring 'Required', which a non-exact text-strategy match (this repo's TextStrategy always uses exact:false) would incorrectly count alongside the real 2 field errors. Confirmed live: this caused an unstable count varying 1-3 across runs before the fix.",
+    "candidates": [
+      { "strategy": "css", "value": ".oxd-input-field-error-message" }
+    ]
+  }
+}

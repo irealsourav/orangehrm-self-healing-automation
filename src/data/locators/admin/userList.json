@@ -1,0 +1,17 @@
+{
+  "usernameInput": {
+    "id": "usernameInput",
+    "description": "Username filter field on the System Users list",
+    "candidates": [
+      { "strategy": "xpath", "value": "//label[text()='Username']/parent::div/following-sibling::div//input" }
+    ]
+  },
+  "searchButton": {
+    "id": "searchButton",
+    "description": "Search button on the System Users filter form",
+    "candidates": [
+      { "strategy": "role", "value": "button", "roleOptions": { "name": "Search" } },
+      { "strategy": "text", "value": "Search" }
+    ]
+  }
+}
